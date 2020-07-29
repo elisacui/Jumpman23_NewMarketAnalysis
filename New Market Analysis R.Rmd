@@ -1,15 +1,17 @@
 ---
-title: "New Market Analysis"
+title: "New Market Analysis - Jumpman23"
 author: "Elisa Cui"
-date: "7/27/2020"
+date: "7/28/2020"
 output:
   prettydoc::html_pretty:
     theme: cayman
     highlight: github
+    self_contained: true
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -37,10 +39,8 @@ library(TTR)
 library(prettydoc)
 ```
 
-# Jumpman23
-
 ### Challenge
-How are things in New York for Jumpman23 and come up with a plan to grow the market by 20% in two months. Dive into the reports on data integrity issues and if they indeed exist, outline where they may be and how they may impact the analysis.
+How are things in New York for Jumpman23? Come up with a plan to grow the market by 20% in two months. Dive into the reports on data integrity issues and if they exist, outline where and how they may impact the analysis.
 
 ### Proposed Solution 
 * Fix data integrity bugs by creating an incentive called a "perfect delivery" for Jumpman deliverers to keep track of their progress, note their arrival/departure time and ensure accurate delivery times. By using the data from a "perfect delivery," we can further determine accurate delivery times to ensure all businesses uphold a good reputation.
@@ -50,7 +50,7 @@ How are things in New York for Jumpman23 and come up with a plan to grow the mar
 * Expand into upper east side of NY in order to expand entire city of NY since majority of orders are concentrated in lower manhattan & east village.
 * Creat new customer acquistion campaigns that will further grow new customer base while retaining unique customer growth.
 
-### 1. Understanding & Transforming the Dataset
+### Understanding & Transforming the Dataset
 Jumpman23 is an on-demand delivery platform connection "Jumpmen" to customers purchasing a variety of goods. Jumpman23 will send Jumpmen to merchants to purchase and pickup any items requested by the customer. Based off initial data screening, I have transformed certain variables for later use and recognized potential data integrity issues.
 ```{r results = "hide"}
 data <- read.csv(file = "~/Desktop/Jumpman23/analyze_me.csv", header = TRUE, na.strings=c("","NA"))
@@ -71,7 +71,7 @@ data$distance_miles <- (data$distance / 1609)
 data$which_day <- weekdays(as.Date(data$when_the_delivery_started))
 data$which_hour <- format(as.POSIXct(data$when_the_delivery_started, format ="%Y-%m-%d %H:%M:%S"), "%H")
 ```
-### 2. Data Integrity Issues  
+### Data Integrity Issues  
 There are a few columns have missing values in the dataset, which are:  
   
 * place_category: 883  
@@ -190,7 +190,7 @@ There are two more problems within the dataset regarding data integrity that I w
   
 * Empty values for how_long_it_took_to_order: This has missing values potentially due to the fact that customers could sometimes log in and out of the application due to decision fatigue. If a customer was distracted or another event came up while they were trying to order in the application, it is difficult to track exactly how much time it took for them to order. A quick solution to this could be to only track the time of a customer when they have selected an item for their shopping cart, if that shopping cart is inactive for 30 minutes (this is just an estimation, but this time could be predicted by behavioral data scientists), the timer that is counting time will reset due to inactivity. The timer will finish only when the purchase is completed and therefore that column will not be populated with a value.  
   
-### 3. Growth and Expansion  
+### Growth and Expansion  
 In order to give the most accurate analysis possible, I have removed the rows where item quantity is not populated and arrival time at the pickup location is not before the delivery start time.  
 ```{r warning=FALSE, message=FALSE}
 #removing rows without item quantity and rows where time to pick up is negative 
